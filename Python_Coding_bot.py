@@ -221,7 +221,7 @@ def comando_livros(message):
     if (str(message.chat.type) != 'private') and (str(message.chat.id) not in str(grupos_liberados)):
         block(message)
     else:
-        bot.reply_to(message,'mega.nz/#F!KMADDTwQ!hl8Aj7PwE81YrQJIPA3IOQ')
+        bot.reply_to(message,'Link')
 
 @bot.message_handler(commands=['ide_python'])
 def comando_ide_python(message):
