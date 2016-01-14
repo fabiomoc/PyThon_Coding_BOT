@@ -11,8 +11,9 @@ bot = telebot.TeleBot(token)
 staff = -94082849
 
 grupos_liberados = ['-74638594','-1001003662865', '-44624117']
-IDs_liberados = [110806640]
-grupos_monitorados = ['-74638594','-1001003662865', '-44624117']
+IDs_liberados = []
+strings_liberadas = 'https://telegram.me/pythoncodebr, https://telegram.me/joinchat/BprGcTvSrhHJIFlsjlLc5Q'
+grupos_monitorados = ['-1001003662865', '-44624117']
 administradores = {-1001003662865: '''Administradores do Grupo: Python Coding - BS|EH
 @EXPL01T3R0
 @B1zzy1
@@ -220,7 +221,7 @@ def comando_livros(message):
     if (str(message.chat.type) != 'private') and (str(message.chat.id) not in str(grupos_liberados)):
         block(message)
     else:
-        bot.reply_to(message,'Link')
+        bot.reply_to(message,'mega.nz/#F!KMADDTwQ!hl8Aj7PwE81YrQJIPA3IOQ')
 
 @bot.message_handler(commands=['ide_python'])
 def comando_ide_python(message):
@@ -272,39 +273,40 @@ def spam(mensagem):
         for link in links:
             resolve = requests.get('http://api.longurl.org/v2/expand?url='+str(link)).content.decode()
             #resolve = re.search('(<\!\[CDATA\[)(.*?)(\]\]\>\<\/long-url>)', resolve)
-            if re.search('(telegram.me|joinchat|)', resolve) and str(mensagem.from_user.id) not in str(IDs_liberados):
-                user = mensagem.from_user.id
-                try: log_ban = ast.literal_eval(open('log_ban').read())
-                except: log_ban = {}
-                if log_ban.get(user):
-                    log_ban[user] +=1
-                    if log_ban.get(user) >= 2:
-                        bot.reply_to(mensagem,'''
+            if mensagem.text not in strings_liberadas:
+                if re.search('telegram.me|joinchat',resolve) and str(mensagem.from_user.id) not in str(IDs_liberados):
+                    user = mensagem.from_user.id
+                    try: log_ban = ast.literal_eval(open('log_ban').read())
+                    except: log_ban = {}
+                    if log_ban.get(user):
+                        log_ban[user] +=1
+                        if log_ban.get(user) >= 2:
+                            bot.reply_to(mensagem,'''
 Divulgação não autorizada!
 você já foi alertado sobre isso, portanto, pedirei a um administrador que remova você!''')
-                        bot.send_message(staff, '''
+                            bot.send_message(staff, '''
 Onde estão os admin ça poha?
 Estão fazendo divulgação no grupo! !
 
 Ele já havia sido avisado, então alguém bane ele por favor, eu não sei fazer isso''')
-                        bot.forward_message(staff, mensagem.chat.id, mensagem.message_id)
-                else:
-                    log_ban[user] = 1
-                    bot.reply_to(mensagem, '''
+                            bot.forward_message(staff, mensagem.chat.id, mensagem.message_id)
+                    else:
+                        log_ban[user] = 1
+                        bot.reply_to(mensagem, '''
 Divulgação não autorizada!
 Seu nome de usuário foi registrado na lista de observação e caso volte a divulgar algum grupo/canal sem autorização, você será banido
 
 Para obter autorização para divulgação fale com algum administrador, para ver quem são so administradores do grupo, digite /adm
 
 Leia as regras do grupo antes de postar''')
-                with open('log_ban', 'w') as salvar_log: salvar_log.writelines(str(log_ban))
-                bot.send_message(staff, '''
+                    with open('log_ban', 'w') as salvar_log: salvar_log.writelines(str(log_ban))
+                    bot.send_message(staff, '''
 Onde estão os admin ça poha?
 Estão fazendo divulgação no grupo! !
 Dei um aviso pra ele, na segunda, ele vai ser banido !
 
 Só falta alguém ir la e excluir a mensagem, porque eu não sei como fazer isso''')
-                bot.forward_message(staff, mensagem.chat.id, mensagem.message_id)
+                    bot.forward_message(staff, mensagem.chat.id, mensagem.message_id)
 
 print('Bot Iniciado')        
 bot.polling()
