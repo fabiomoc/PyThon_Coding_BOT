@@ -1,5 +1,5 @@
 ## PYCoding BOT V.2.0
-Repositório do bot oficial do grupo [Python Coding - PT_BR](https://telegram.me/joinchat/BprGcTvSrhHJIFlsjlLc5Q) no telegram
+Repositório do bot oficial do grupo [Python Coding - PT_BR](https://telegram.me/PyCoding) no telegram
 
 Criado usando a lib [pyTelegramBotAPI 0.2.9](https://pypi.python.org/pypi/pyTelegramBotAPI/0.2.9)
 
@@ -9,7 +9,7 @@ Criado usando a lib [pyTelegramBotAPI 0.2.9](https://pypi.python.org/pypi/pyTele
 
 `/ide_python` Retorna links de IDEs python, gratuitas e proprietárias
 
-`livros` Retorna o link da biblioteca de livros e apostilas sobre python do grupo
+`/livros` Retorna o link da biblioteca de livros e apostilas sobre python do grupo
 
 `/link` Retorna o Link de convite para acesso ao grupo
 
@@ -17,6 +17,6 @@ Criado usando a lib [pyTelegramBotAPI 0.2.9](https://pypi.python.org/pypi/pyTele
 
 `/regras` Exibe as regras vigentes no grupo
 
-`/Sobre | /about | /contribuir` Exibe informações sobre o bot e como contruir com o mesmo
+`/sobre | /about | /contribuir` Exibe informações sobre o bot e como contruir com o mesmo
 
 `/sugestão <texto>` Envie sugestões de melhorias para o bot
