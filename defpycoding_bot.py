@@ -7,6 +7,9 @@ import sqlite3
 from logs import log_msg, log_erros
 
 token = ''
+if token == '':
+    print("Esta faldando o token...")
+    quit()
 bot = telebot.TeleBot(token)
 
 def consulta_grupo(campo):
@@ -16,9 +19,8 @@ def consulta_grupo(campo):
                              .format(campo=campo)).fetchone()[0])
 def block(mensagem):
     bot.reply_to(mensagem,'''
-Este bot esta programado para funcionar somente no grupo Python Coding - BS|EH
-Entre para o grupo usando este link: https://telegram.me/joinchat/BprGcTvSrhHJIFlsjlLc5Q
-''')
+*Este bot esta programado para funcionar somente no grupo* [Python Coding - BS|EH](https://telegram.me/PyCoding)
+''', parse_mode="Markdown")
 
 def default(mensagem, comando, func):
     log_msg(mensagem)
@@ -29,7 +31,7 @@ def default(mensagem, comando, func):
             bot.reply_to(mensagem, consulta_grupo(comando))
     except Exception as erro:
         log_erros(func, erro, mensagem)
-    
+
 ########################################################################################################################
 
 @bot.message_handler(commands=['adm', 'admin','admins', 'administradores', 'administrators', 'mod', 'moderadores', 'mods'])
@@ -51,7 +53,7 @@ def comando_link(mensagem):
 @bot.message_handler(commands=['livros', 'book', 'books', 'apostilas'])
 def comando_livros(mensagem):
     default(mensagem, 'livros', 'comando LIVROS')
-        
+
 @bot.message_handler(commands=['ide_python'])
 def comando_ide(mensagem):
     default(mensagem, 'ide', 'comando IDE')
@@ -67,21 +69,21 @@ def comando_sobre(mensagem):
 @bot.message_handler(func=lambda mensagem: True, content_types=['new_chat_participant'])
 def comando_welcome(mensagem):
     default(mensagem, 'boas_vindas', 'comando WELCOME')
-        
+
 @bot.message_handler(commands=['id'])
 def id_(mensagem):
     log_msg(mensagem)
     try:
         bot.reply_to(mensagem,'''
-ID
+*INFO*
+ID: `{id_user}`
 Seu Nome: {nome}
 Username: @{username}
-ID:       {id_user}
 ---------------------
 Nome do Chat: {nome_grupo}
-ID do Grupo:   {id_grupo}'''.format(nome = mensagem.from_user.first_name + mensagem.from_user.last_name if mensagem.from_user.last_name else mensagem.from_user.first_name,
+ID do Grupo:     `{id_grupo}`'''.format(nome = mensagem.from_user.first_name + mensagem.from_user.last_name if mensagem.from_user.last_name else mensagem.from_user.first_name,
                                     username = mensagem.from_user.username, id_user = mensagem.from_user.id, nome_grupo = mensagem.chat.title,
-                                    id_grupo = mensagem.chat.id))
+                                    id_grupo = mensagem.chat.id), parse_mode='Markdown')
     except Exception as erro:
             log_erros('comando ID', erro, mensagem)
             print('\n------------------------------------\nErro na função ID, consulte o arquivo logs_de_erros,', datetime.today())
@@ -90,7 +92,7 @@ ID do Grupo:   {id_grupo}'''.format(nome = mensagem.from_user.first_name + mensa
 def comando_buscar_modulo(mensagem):
     log_msg(mensagem)
     if (str(mensagem.chat.type) != 'private'):
-        bot.reply_to(mensagem, 'Para usar esta função, me chame no PV')
+        bot.reply_to(mensagem, '*Para usar esta função, me chame no PV*', parse_mode='Markdown')
     else:
         try:
             texto = mensagem.text.split(' ')[1]
@@ -101,14 +103,14 @@ def comando_buscar_modulo(mensagem):
                     resposta = telebot.util.split_string(resposta, 3000)
                     for x in resposta: bot.reply_to(mensagem,x)
                 else:
-                    bot.reply_to(mensagem,'Nenhum módulo encontrado')
+                    bot.reply_to(mensagem,'_Nenhum módulo encontrado_', parse_mode='Markdown')
             else:
-                bot.reply_to(mensagem,'termo de busca muito curto, tente novamente')
+                bot.reply_to(mensagem,'_Termo de busca muito curto, tente novamente_', parse_mode='Markdown')
         except IndexError:
-            bot.reply_to(mensagem,'uso: /buscar_modulo <termo de busca> (ex.: /buscar_modulo telegram)')
+            bot.reply_to(mensagem,'Uso: `/buscar_modulo <termo de busca>`\n_Ex.: /buscar_[_]()_modulo telegram_', parse_mode='Markdown')
         except Exception as erro:
             log_erros('comando buscar_modulo', erro, mensagem)
-            print('\n------------------------------------\nErro na função buscar_modulo, consulte o arquivo logs_de_erros,', datetime.today())        
+            print('\n------------------------------------\nErro na função buscar_modulo, consulte o arquivo logs_de_erros,', datetime.today())
 
 @bot.message_handler(commands=['sugestão', 'sugestao'])
 def comando_sugest(message):
@@ -120,9 +122,9 @@ def comando_sugest(message):
             arq_sugest = open('sugest.txt', 'a')
             arq_sugest.write('\n\n'+'-'*30+'\n'+message.text.replace('/sugestão ', ''))
             arq_sugest.close()
-            bot.reply_to(message,'Sugestão recebida, obrigado')
+            bot.reply_to(message,'*Sugestão recebida, obrigado*', parse_mode='Markdown')
         else:
-            bot.reply_to(message,'Uso: /sugestão <sugestão>')
-        
+            bot.reply_to(message,'Uso: `/sugestão <sugestão>`', parse_mode='Markdown')
+
 print('Bot Iniciado')
 bot.polling()
