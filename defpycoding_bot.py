@@ -95,6 +95,21 @@ def comando_sobre(mensagem):
     if limite_comando('sorteio', datetime.today().minute) == True:
         default(mensagem, 'sorteio', 'comando SORTEIO')
 
+@bot.message_handler(commands=['code'])
+def comando_sugest(mensagem):
+    log_msg(mensagem)
+    if mensagem.chat.type != 'private':
+        bot.reply_to(mensagem, '*Para usar esta função, me chame no PV*', parse_mode='Markdown')
+    else:
+        try:
+            
+            if len(mensagem.text) <= 6:
+                bot.reply_to(mensagem, 'Código muito curto')
+            else:
+                bot.reply_to(mensagem, '```\n'+mensagem.text.replace('/code ', '')+'\n```', parse_mode="Markdown")
+        except Exception as erro:
+                log_erros('comando code', erro, mensagem)
+                print('\n------------------------------------\nErro na função code, consulte o arquivo logs_de_erros,', datetime.today())
 
 @bot.message_handler(func=lambda mensagem: True, content_types=['new_chat_participant'])
 def comando_welcome(mensagem):
